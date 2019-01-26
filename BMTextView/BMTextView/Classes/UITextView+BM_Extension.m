@@ -74,11 +74,21 @@
     self.attributedText = nil;
     self.attributedText = attrStr;
     
+    NSLayoutManager *layoutManager = self.layoutManager;
+    [layoutManager ensureLayoutForTextContainer: self.textContainer];
+    
     //calculate link text rect
     for (BMTextLinkModel *model in self.webLinks) {
-        self.selectedRange = model.range;
-        model.rect = [self firstRectForRange: self.selectedTextRange];
-        self.selectedRange = NSMakeRange(0, 0);
+        model.rect = [layoutManager boundingRectForGlyphRange: model.range inTextContainer: self.textContainer];
+//        //Text link rect
+//        CAShapeLayer *layer = [CAShapeLayer layer];
+//        layer.frame = model.rect;
+//        layer.path = CGPathCreateWithRect((CGRect){CGPointZero, model.rect.size}, NULL);
+//        layer.strokeColor = [UIColor redColor].CGColor;
+//        layer.fillColor = [UIColor clearColor].CGColor;
+//        layer.backgroundColor = [UIColor clearColor].CGColor;
+//        layer.borderWidth = 1;
+//        [self.layer addSublayer: layer];
     }
     
     //calculate text size
@@ -90,8 +100,6 @@
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(sd_handleTapGesture:)];
     [self addGestureRecognizer: tap];
-    
-    self.textContainer.size = CGSizeMake(ceilf(self.adjustSize.width - self.contentInset.left - self.contentInset.right), ceilf(self.adjustSize.height - self.contentInset.top - self.contentInset.bottom));
 }
 
 #pragma mark - Event response
