@@ -33,3 +33,6 @@ _textView2.tapLinkBlock = ^(NSString * _Nonnull str) {
 };
 [_textView2 adjustWebText];
 ```
+
+### 注意：
+系统版本等于或者低于 **iOS9.x** 调用 **firstRectForRange:** 方法返回的 **rect** 不准确，应该调用NSLayoutManager的 **boundingRectForGlyphRange:** 方法获取对应的rect，调用前要确保布局已生效，可以在调用该方法之前调用 **ensureLayoutForTextContainer:** 确保布局生效。
