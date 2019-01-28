@@ -79,7 +79,9 @@
     
     //calculate link text rect
     for (BMTextLinkModel *model in self.webLinks) {
-        model.rect = [layoutManager boundingRectForGlyphRange: model.range inTextContainer: self.textContainer];
+        CGRect rect = [layoutManager boundingRectForGlyphRange: model.range inTextContainer: self.textContainer];
+        rect = CGRectMake(rect.origin.x+self.textContainerInset.left, rect.origin.y+self.textContainerInset.top, rect.size.width, rect.size.height);
+        model.rect = rect;
 //        //Text link rect
 //        CAShapeLayer *layer = [CAShapeLayer layer];
 //        layer.frame = model.rect;

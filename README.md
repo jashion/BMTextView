@@ -35,4 +35,7 @@ _textView2.tapLinkBlock = ^(NSString * _Nonnull str) {
 ```
 
 ### 注意：
-系统版本等于或者低于 **iOS9.x** 调用 **firstRectForRange:** 方法返回的 **rect** 不准确，应该调用NSLayoutManager的 **boundingRectForGlyphRange:** 方法获取对应的rect，调用前要确保布局已生效，可以在调用该方法之前调用 **ensureLayoutForTextContainer:** 确保布局生效。
+1.系统版本等于或者低于 **iOS9.x** 调用 **firstRectForRange:** 方法返回的 **rect** 不准确，应该调用NSLayoutManager的 **boundingRectForGlyphRange:** 方法获取对应的rect，调用前要确保布局已生效，可以在调用该方法之前调用 **ensureLayoutForTextContainer:** 确保布局生效。  
+2.先看textView的布局图：  
+![textViewLayout](textViewLayout.png)  
+layoutManager返回的rect，是指在绿色方块的布局，所以，其正真的 **rect=(rect.origin.x+textContainer.left, rect.origin.y+textContainer.top, rect.size.width, rect.size.height)** ，其中，lineFragmentPadding系统会自动的加上，不需要手动添加。其中可以显示内容的区域为绿色-红色的区域。
